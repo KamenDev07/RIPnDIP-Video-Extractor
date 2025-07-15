@@ -2,7 +2,7 @@
 - `yt-dlp` (Python library)
 - `ffmpeg` (must be installed separately): https://ffmpeg.org/download.html
 
-### Install Python packages
+## Install Python packages
 ```bash
 pip install -r requirements.txt
 # Or just install yt-dlp directly:
