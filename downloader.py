@@ -1,31 +1,35 @@
 import yt_dlp
 
-def download_media(url, format_choice):
-    ydl_opts = {}
+def Download(link, download_type):
+    if download_type == 'video':
+        ydl_opts = {
+            'format': 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4',
+            'outtmpl': '%(title)s.%(ext)s',
+            'merge_output_format': 'mp4',
+}
 
-    if format_choice in ['mp3', 'wav']:
+    elif download_type == 'wav':
         ydl_opts = {
             'format': 'bestaudio/best',
             'outtmpl': '%(title)s.%(ext)s',
             'postprocessors': [{
                 'key': 'FFmpegExtractAudio',
-                'preferredcodec': format_choice,
+                'preferredcodec': 'wav',
                 'preferredquality': '192',
             }],
         }
-    elif format_choice == 'mp4':
-        ydl_opts = {
-            'format': 'bestvideo+bestaudio/best',
-            'outtmpl': '%(title)s.%(ext)s',
-        }
     else:
-        print("Unsupported format selected.")
+        print("Invalid choice.")
         return
 
-    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-        ydl.download([url])
+    try:
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            ydl.download([link])
+        print(f"{download_type.capitalize()} Download Success")
+    except Exception as e:
+        print("Download Failed:", e)
 
-if __name__ == "__main__":
-    url = input("Enter the video URL: ")
-    format_choice = input("Enter desired format (mp3, wav, mp4): ").lower()
-    download_media(url, format_choice)
+link = input("Video URL: ")
+choice = input("Download 'video' or 'wav': ").lower()
+Download(link, choice)
+input("Press Enter to exit...")
