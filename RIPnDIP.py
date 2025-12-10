@@ -3,10 +3,10 @@ import yt_dlp
 def Download(link, download_type):
     if download_type == 'video':
         ydl_opts = {
-            'format': 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4',
+            'format': 'bestvideo+bestaudio/best',
             'outtmpl': '%(title)s.%(ext)s',
             'merge_output_format': 'mp4',
-}
+        }
 
     elif download_type == 'wav':
         ydl_opts = {
@@ -18,6 +18,7 @@ def Download(link, download_type):
                 'preferredquality': '192',
             }],
         }
+
     else:
         print("Invalid choice.")
         return
@@ -26,6 +27,7 @@ def Download(link, download_type):
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             ydl.download([link])
         print(f"{download_type.capitalize()} Download Success")
+
     except Exception as e:
         print("Download Failed:", e)
 
